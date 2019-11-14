@@ -14,11 +14,20 @@ exports.createMessage = functions.firestore.document('chat/{groupId}/messages/{m
       topic: `chatgroup_${grupoId}`,
       data: {
         sender: `${data.user._id}`,
-        group: `${grupoId}`
+        group: `${grupoId}`,
+        title: `Match4Action - ${data.groupName}`,
+        body: data.text,
       },
       notification: {
         title: `Match4Action - ${data.groupName}`,
-        body: data.text
+        body: `${data.user.name}: ${data.text}`
+      },
+      apns: {
+        headers: {
+          'apns-priority': '5',
+          'apns-push-type': 'background',
+          'content-available': 'true',
+        },
       }
     }
 
